@@ -1,13 +1,9 @@
-export const setGroup = async ({ name, members }: Group) => {
-  // browser object only works for service worker world :(
-  await browser.storage.local.set({ [name]: members });
+const persistGroups = async (groups: Group[]) => {
+  await browser.storage.local.set({ groups });
 };
 
-export const getGroup = async (name: string) => {
-  return await browser.storage.local.get(name);
+const loadGroups = async () => {
+  return (await browser.storage.local.get()) as Group[];
 };
 
-type Group = {
-  name: string;
-  members: string[];
-};
+export { persistGroups, loadGroups };

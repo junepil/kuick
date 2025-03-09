@@ -1,3 +1,5 @@
+import { Group } from "@/components/GroupContainer";
+
 const useAddUserButton = () => {
   const searchUserButton = document.getElementById(
     "userAddBtn",
@@ -29,7 +31,9 @@ const addUsers = (users: string[]) => {
   });
 };
 
-const useRegister = (users: string[]) => {
+const useRegister = ({ members }: Group) => {
+  const users = members;
+
   const popupObserver = new MutationObserver((_, observer) => {
     const elem = document.getElementById("addBtn");
     if (elem) {
