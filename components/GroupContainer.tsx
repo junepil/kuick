@@ -1,7 +1,7 @@
 import { IoClose } from "react-icons/io5";
 import { Button } from "./Button";
 
-export class Group {
+class Group {
   name: string;
   members: string[];
 
@@ -17,11 +17,7 @@ type GroupContainerProps = {
   onClose: () => void;
 };
 
-export default function GroupContainer({
-  group,
-  onClick,
-  onClose,
-}: GroupContainerProps) {
+const GroupContainer = ({ group, onClick, onClose }: GroupContainerProps) => {
   return (
     <div className='w-full p-4 border-2 border-gray-300 rounded-lg flex flex-col gap-2 relative hover:border-cyan-700'>
       <h2 className='text-4xl font-black text-green-800'>{group.name}</h2>
@@ -39,4 +35,6 @@ export default function GroupContainer({
       <Button onClick={onClick}>사용하기</Button>
     </div>
   );
-}
+};
+
+export { Group, GroupContainer };
