@@ -20,15 +20,17 @@ type GroupContainerProps = {
 const GroupContainer = ({ group, onClick, onClose }: GroupContainerProps) => {
   return (
     <div className='w-full p-4 border-2 border-gray-300 rounded-lg flex flex-col gap-2 relative hover:border-cyan-700'>
-      <h2 className='text-4xl font-black text-green-800'>{group.name}</h2>
+      <h2 className='text-4xl font-black text-green-800 overflow-clip'>
+        {group.name}
+      </h2>
       <IoClose
         onClick={onClose}
         className='absolute end-4 top-4 text-xl text-gray-400 hover:text-cyan-700'
       />
-      <ul className='flex flex-col py-4 gap-2 items-start justify'>
+      <ul className='flex flex-col h-full p-2 gap-2 items-start'>
         {group.members.map((member, index) => (
           <li className='w-fit flex gap-2' key={index}>
-            <div>{member}</div>
+            <div className='text-sm font-semibold text-gray-800'>{member}</div>
           </li>
         ))}
       </ul>
