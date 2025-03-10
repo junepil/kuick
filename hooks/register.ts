@@ -19,6 +19,7 @@ const addUsers = (users: string[]) => {
 
     if (members?.length === users.length) {
       saveButton.click();
+      saveForm();
       observer.disconnect();
     }
   });
@@ -29,6 +30,12 @@ const addUsers = (users: string[]) => {
     userIdInput.value = id;
     userAddButton.click();
   });
+};
+
+const saveForm = () => {
+  const saveButton = document.getElementById("saveBtn");
+
+  saveButton?.click();
 };
 
 const useRegister = ({ members }: Group) => {
