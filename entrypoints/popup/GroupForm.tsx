@@ -9,7 +9,7 @@ type GroupFormProps = {
 
 const GroupForm = ({ onCreate }: GroupFormProps) => {
   const [create, setCreate] = useState(false);
-  const { control, handleSubmit, setValue, watch } = useForm<Group>({
+  const { control, handleSubmit, setValue, watch, reset } = useForm<Group>({
     defaultValues: {
       members: [""],
     },
@@ -20,6 +20,7 @@ const GroupForm = ({ onCreate }: GroupFormProps) => {
   const onSubmit: SubmitHandler<Group> = (data) => {
     onCreate(data);
     setCreate(false);
+    reset();
   };
 
   const addMember = () => {
@@ -33,9 +34,7 @@ const GroupForm = ({ onCreate }: GroupFormProps) => {
     );
   };
 
-  useEffect(() => {
-    
-  }, members);
+  useEffect(() => {}, members);
   return (
     <div className='flex flex-col w-full ease-out duration-200'>
       {!create && (
