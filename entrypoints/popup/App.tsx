@@ -4,13 +4,14 @@ import Layout from "./Layout";
 
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   const deleteGroup = (target: number) => {
     setGroups(groups!.filter((_, index) => index !== target));
   };
 
   const createGroup = (group: Group) => {
-    setGroups([...groups!, group]);
+    setGroups([group, ...groups!]);
   };
 
   const sendMessage = async (content: any) => {
@@ -42,15 +43,25 @@ const App = () => {
 
   return (
     <Layout>
-      {groups?.map((group, index) => (
-        <GroupContainer
-          key={index}
-          group={group}
-          onClose={() => deleteGroup(index)}
-          onClick={() => sendMessage(group)}
-        />
-      ))}
-      <GroupForm onCreate={createGroup} />
+      <div className='col-span-2 flex justify-end p-2'>
+        <Button onClick={() => setIsCreating(true)}>그룹 추가하기</Button>
+      </div>
+      <div className='grid grid-cols-2 gap-2 p-2'>
+        {isCreating && (
+          <GroupForm
+            onCreate={createGroup}
+            onClose={() => setIsCreating(false)}
+          />
+        )}
+        {groups?.map((group, index) => (
+          <GroupContainer
+            key={index}
+            group={group}
+            onClose={() => deleteGroup(index)}
+            onClick={() => sendMessage(group)}
+          />
+        ))}
+      </div>
     </Layout>
   );
 };
