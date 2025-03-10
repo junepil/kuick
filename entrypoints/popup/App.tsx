@@ -3,14 +3,14 @@ import { GroupForm } from "./GroupForm";
 import Layout from "./Layout";
 
 const App = () => {
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<Group[] | null>(null);
 
   const deleteGroup = (target: number) => {
-    setGroups(groups.filter((_, index) => index !== target));
+    setGroups(groups!.filter((_, index) => index !== target));
   };
 
   const createGroup = (group: Group) => {
-    setGroups([...groups, group]);
+    setGroups([...groups!, group]);
   };
 
   const sendMessage = async (content: any) => {
@@ -18,7 +18,28 @@ const App = () => {
       if (tabs[0].id) browser.tabs.sendMessage(tabs[0].id, { content });
     });
   };
-  // TODO 영속화 기능 추가
+
+  // 그룹이 변경될 때마다 저장
+  useEffect(() => {
+    const persistGroups = async (groups: Group[]) => {
+      await browser.storage.sync.set({ groups });
+    };
+
+    if (groups) persistGroups(groups);
+  }, [groups]);
+
+  // 익스텐션 로딩 시 초기 그룹 정보 반환
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const data = await browser.storage.sync.get();
+      const initialGroups = data.groups ?? [];
+
+      setGroups(initialGroups);
+    };
+
+    fetchGroups();
+  }, []);
+
   return (
     <Layout>
       {groups?.map((group, index) => (
