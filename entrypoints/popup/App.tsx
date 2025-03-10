@@ -1,5 +1,5 @@
 import { Group, GroupContainer } from "@/components/GroupContainer";
-import { GroupForm } from "./GroupForm";
+import { GroupForm } from "@/components/GroupForm";
 import Layout from "./Layout";
 
 const App = () => {
