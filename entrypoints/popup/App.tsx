@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <Layout>
-      <div className='col-span-2 flex justify-end p-2'>
+      <div className='col-span-2 flex justify-end px-4 py-2'>
         <Button onClick={() => setIsCreating(true)}>그룹 추가하기</Button>
       </div>
       <div className='flex flex-col gap-2 p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-200 scrollbar-w-2'>
