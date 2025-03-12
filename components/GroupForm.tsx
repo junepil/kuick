@@ -1,7 +1,6 @@
 import { Button } from "@/components/Button";
 import { Group } from "@/components/GroupContainer";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { RiUserMinusLine } from "react-icons/ri";
 
 interface GroupFormProps {
   onCreate: (data: Group) => void;
@@ -9,70 +8,56 @@ interface GroupFormProps {
 }
 
 const GroupForm = ({ onCreate, onClose }: GroupFormProps) => {
-  const { control, handleSubmit, setValue, watch, reset } = useForm<Group>({
+  const { control, handleSubmit, watch, reset } = useForm<Group>({
     defaultValues: {
-      members: [""],
+      members: ["", "", "", ""],
     },
   });
 
   const members = watch("members");
 
+  const useRealMembers = (members: string[]) => {
+    return members.filter((member) => member !== "");
+  };
+
   const onSubmit: SubmitHandler<Group> = (data) => {
+    data.members = useRealMembers(data.members);
+
     onCreate(data);
     onClose();
     reset();
   };
-
-  const addMember = () => {
-    setValue("members", [...members, ""]);
-  };
-
-  const removeMember = (index: number) => {
-    setValue(
-      "members",
-      members.filter((_, i) => i !== index),
-    );
-  };
-
-  useEffect(() => {}, members);
   return (
-    <Box onClose={onClose} title="새 그룹">
-      <div className='w-full h-64 flex flex-col gap-2 relative'>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col gap-2 p-2 w-full overflow-y-auto'
-        >
+    <Box onClose={onClose} title='새 그룹'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col gap-2 py-2 w-auto h-fit overflow-y-auto relative items-end'
+      >
+        <Controller
+          name='name'
+          control={control}
+          defaultValue=''
+          render={({ field }) => (
+            <Input placeholder='그룹명' {...field} required />
+          )}
+        />
+        {members.map((_, index) => (
           <Controller
-            name='name'
+            key={index}
+            name={`members.${index}`}
             control={control}
             defaultValue=''
-            render={({ field }) => <Input placeHolder='그룹명' {...field} />}
+            render={({ field }) => <Input placeholder='학번' {...field} />}
           />
-          {members.map((_, index) => (
-            <Controller
-              key={index}
-              name={`members.${index}`}
-              control={control}
-              defaultValue=''
-              render={({ field }) => (
-                <div className='w-full flex justify-between items-center relative'>
-                  <Input placeHolder='학번' {...field} />
-                  <RiUserMinusLine
-                    onClick={() => removeMember(index)}
-                    className='text-xl text-gray-400 hover:text-cyan-700'
-                  />
-                </div>
-              )}
-            />
-          ))}
-          <Button onClick={addMember}>멤버 추가</Button>
-          <input
-            className='flex p-2 bg-cyan-800 rounded-lg text-zinc-50'
-            type='submit'
-            value='추가하기'
-          />
-        </form>
-      </div>
+        ))}
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          type={"submit"}
+          variant={"create"}
+        >
+          등록하기
+        </Button>
+      </form>
     </Box>
   );
 };
