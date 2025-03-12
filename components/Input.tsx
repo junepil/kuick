@@ -1,15 +1,23 @@
-export default function Input({
-  placeHolder = "",
-  ...props
-}: {
-  placeHolder?: string;
-}) {
+import { cn } from "@/lib/util";
+import { cva, VariantProps } from "class-variance-authority";
+import { InputHTMLAttributes } from "react";
+
+const inputVarriants = cva(
+  "font-[Inter] w-full font-semibold h-8 rounded-xl border-2 border-stone-300 p-3 outline-cyan-700 ease-in-out duration-300",
+  {
+    variants: {},
+    defaultVariants: {},
+  },
+);
+
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVarriants> {}
+
+const Input = ({ className, ...props }: InputProps) => {
   return (
-    <input
-      type='text'
-      className='max-w-28 h-8 rounded-md border-2 border-gray-300 p-2 outline-green-800 w-auto'
-      placeholder={placeHolder}
-      {...props}
-    />
+    <input type='text' className={cn(inputVarriants(className))} {...props} />
   );
-}
+};
+
+export { Input, inputVarriants };
