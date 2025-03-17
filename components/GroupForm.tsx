@@ -1,13 +1,20 @@
 import { Button } from "@/components/Button";
 import { Group } from "@/components/GroupContainer";
+import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { IoClose } from "react-icons/io5";
 
 interface GroupFormProps {
   onCreate: (data: Group) => void;
   onClose: () => void;
+  ref: React.Ref<any>;
 }
 
-const GroupForm = ({ onCreate, onClose }: GroupFormProps) => {
+const GroupForm: React.FC<GroupFormProps> = ({
+  onCreate,
+  onClose,
+  ...props
+}: GroupFormProps) => {
   const { control, handleSubmit, watch, reset } = useForm<Group>({
     defaultValues: {
       members: ["", "", "", ""],
@@ -27,11 +34,16 @@ const GroupForm = ({ onCreate, onClose }: GroupFormProps) => {
     onClose();
     reset();
   };
+
   return (
-    <Box onClose={onClose} title='새 그룹'>
+    <div
+      className='absolute w-full h-full translate-y-[20%] bottom-0 bg-stone-50 z-10 rounded-t-4xl py-8 px-8 flex flex-col gap-2 items-end'
+      ref={props.ref}
+    >
+      <IoClose className='text-stone-500 text-xl' onClick={onClose} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-2 py-2 w-auto h-fit overflow-y-auto relative items-end'
+        className='flex flex-col gap-4 py-2 w-full h-fit overflow-y-auto relative items-end'
       >
         <Controller
           name='name'
@@ -58,7 +70,7 @@ const GroupForm = ({ onCreate, onClose }: GroupFormProps) => {
           등록하기
         </Button>
       </form>
-    </Box>
+    </div>
   );
 };
 
