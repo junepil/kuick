@@ -10,10 +10,11 @@ const buttonVariants = cva(
         default: "from-cyan-700 to-emerald-700 hover:backdrop-blur-2xl",
         destructive: "from-orange-800 to-pink-700",
         create: "from-indigo-700 to-sky-800",
+        white: "bg-stone-50 text-cyan-700 font-semibold",
       },
       size: {
         md: "h-10 px-4 py-5",
-        lg: "h-14 px-4 py-8",
+        lg: "h-14 px-6 py-8 rounded-3xl",
         sm: "h-8 px-2 py-4",
       },
     },
