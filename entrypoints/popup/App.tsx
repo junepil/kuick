@@ -1,10 +1,45 @@
 import { Group, GroupContainer } from "@/components/GroupContainer";
 import { GroupForm } from "@/components/GroupForm";
+import { AnimatePresence, motion } from "motion/react";
 import Layout from "./Layout";
 
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+
+  const formVariants = {
+    initial: {
+      y: 150,
+      opacity: 0,
+    },
+    animate: {
+      y: 0,
+      opacity: 1,
+    },
+    exit: {
+      y: 350,
+      opacity: 0,
+    },
+  };
+
+  const containerVariants = {
+    initial: {
+      scale: 0,
+      opacity: 0,
+    },
+    enter: {
+      opacity: 1,
+      scale: 1,
+    },
+    exit: {
+      opacity: 0,
+      scale: 0,
+    },
+  };
+
+  const MotionButton = motion.create(Button);
+  const MotionGroupForm = motion.create(GroupForm);
+  const MotionGroupContainer = motion.create(GroupContainer);
 
   const deleteGroup = (target: number) => {
     setGroups(groups!.filter((_, index) => index !== target));
@@ -14,7 +49,7 @@ const App = () => {
     setGroups([group, ...groups!]);
   };
 
-  const sendMessage = async (content: any) => {
+  const registerGroup = async (content: Group) => {
     browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0].id) browser.tabs.sendMessage(tabs[0].id, { content });
     });
@@ -43,24 +78,49 @@ const App = () => {
 
   return (
     <Layout>
-      <div className='col-span-2 flex justify-end px-4 py-2'>
-        <Button onClick={() => setIsCreating(true)}>그룹 추가하기</Button>
+      <div className='h-24'>
+        <AnimatePresence>
+          {isCreating ? (
+            <MotionGroupForm
+              onCreate={createGroup}
+              onClose={() => setIsCreating(false)}
+              variants={formVariants}
+              initial='initial' // initially rendered
+              exit='exit' // exit animation
+              animate='animate' // create animation
+              key='form'
+            />
+          ) : (
+            <MotionButton
+              className='absolute left-[50%] top-[0%] translate-x-[-50%]'
+              variant={"white"}
+              onClick={() => setIsCreating(true)}
+              initial={{ y: 100 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              key='button'
+            >
+              그룹 추가하기
+            </MotionButton>
+          )}
+        </AnimatePresence>
       </div>
       <div className='flex flex-col gap-2 p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-200 scrollbar-w-2'>
-        {isCreating && (
-          <GroupForm
-            onCreate={createGroup}
-            onClose={() => setIsCreating(false)}
-          />
-        )}
-        {groups?.map((group, index) => (
-          <GroupContainer
-            key={index}
-            group={group}
-            onClose={() => deleteGroup(index)}
-            onClick={() => sendMessage(group)}
-          />
-        ))}
+        <AnimatePresence>
+          {groups?.map((group, index) => (
+            <MotionGroupContainer
+              key={index}
+              group={group}
+              onClose={() => deleteGroup(index)}
+              onClick={() => registerGroup(group)}
+              variants={containerVariants}
+              initial='initial'
+              exit='exit'
+              animate='enter'
+              transition={{ delay: index * 0.1 }}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </Layout>
   );

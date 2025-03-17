@@ -10,11 +10,7 @@ interface GroupFormProps {
   ref: React.Ref<any>;
 }
 
-const GroupForm: React.FC<GroupFormProps> = ({
-  onCreate,
-  onClose,
-  ...props
-}: GroupFormProps) => {
+const GroupForm = ({ onCreate, onClose, ...props }: GroupFormProps) => {
   const { control, handleSubmit, watch, reset } = useForm<Group>({
     defaultValues: {
       members: ["", "", "", ""],
