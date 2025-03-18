@@ -3,13 +3,13 @@ import { cva, VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "flex items-center font-[Inter] justify-center text-md text-gray-100 rounded-xl bg-gradient-to-bl ease-in-out w-fit",
+  "flex items-center font-[Inter] justify-center text-md text-gray-100 rounded-xl ease-in-out w-fit hover:cursor-pointer",
   {
     variants: {
       variant: {
-        default: "from-cyan-700 to-emerald-700 hover:backdrop-blur-2xl",
-        destructive: "from-orange-800 to-pink-700",
-        create: "from-indigo-700 to-sky-800",
+        default: "bg-emerald-700",
+        destructive: "bg-orange-800",
+        create: "bg-indigo-700",
         white: "bg-stone-50 text-cyan-700 font-semibold",
       },
       size: {
