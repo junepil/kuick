@@ -25,7 +25,7 @@ const Box = ({ onClose, children, icon, title, ref }: BoxProps) => {
       ) : (
         <IoClose
           onClick={onClose}
-          className='ease-in-out translate-x-[50%] translate-y-[-50%] duration-300 absolute end-8 top-8 text-3xl bg-stone-100 text-stone-400 hover:cursor-pointer rounded-full p-1.5'
+          className='ease-in-out translate-x-[50%] translate-y-[-50%] duration-100 absolute end-8 top-8 text-3xl bg-stone-100 text-stone-500 font-semibold hover:cursor-pointer rounded-full p-1.5'
         />
       )}
       {children}
