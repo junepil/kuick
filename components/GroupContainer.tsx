@@ -14,12 +14,20 @@ type GroupContainerProps = {
   group: Group;
   onClick: () => void;
   onClose: () => void;
+  ref: React.Ref<any>;
+  activate?: boolean;
 };
 
-const GroupContainer = ({ group, onClick, onClose }: GroupContainerProps) => {
+const GroupContainer = ({
+  group,
+  onClick,
+  onClose,
+  ref,
+  activate = false,
+}: GroupContainerProps) => {
   return (
-    <Box onClose={onClose} title={group.name}>
-      <div className='w-full flex flex-col gap-2 items-end'>
+    <Box onClose={onClose} title={group.name} ref={ref}>
+      <div className='w-full flex flex-col gap-2 pt-2 items-end relative'>
         <ul className='flex flex-col h-full w-full p-2 gap-2 items-start'>
           {group.members.map((member, index) => (
             <li
@@ -30,7 +38,9 @@ const GroupContainer = ({ group, onClick, onClose }: GroupContainerProps) => {
             </li>
           ))}
         </ul>
-        <Button onClick={onClick}>사용하기</Button>
+        <Button onClick={onClick} variant={activate ? "default" : "inactivate"}>
+          사용하기
+        </Button>
       </div>
     </Box>
   );

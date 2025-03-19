@@ -6,6 +6,7 @@ import Layout from "./Layout";
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [inReservationUrl, setInReservationUrl] = useState(false); // TODO 전역 상태관리 마렵네
 
   const formVariants = {
     initial: {
@@ -74,6 +75,28 @@ const App = () => {
     };
 
     fetchGroups();
+  }, []);
+
+  useEffect(() => {
+    browser.tabs.query(
+      {
+        active: true,
+        currentWindow: true,
+      },
+      (tabs) => {
+        const currentTab = tabs[0];
+        const url = currentTab.url;
+
+        if (!url) return;
+
+        if (targetUrl.includes(url)) {
+          setInReservationUrl(true);
+          return;
+        }
+
+        setInReservationUrl(false);
+      },
+    );
   }, []);
 
   return (

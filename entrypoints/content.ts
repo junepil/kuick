@@ -1,12 +1,9 @@
 import { Group } from "@/components/GroupContainer";
 import useRegister from "@/hooks/register";
+import { targetUrl } from "@/model/url";
 
 export default defineContentScript({
-  matches: [
-    "<all_urls>",
-    "https://wein.konkuk.ac.kr/ptfol/cmnt/cube/findCubeResveStep2.do",
-    "https://wein.konkuk.ac.kr/ptfol/cmnt/hub/findCubeResveStep2.do",
-  ],
+  matches: ["<all_urls>", ...targetUrl],
   main() {
     console.log("content script");
 
