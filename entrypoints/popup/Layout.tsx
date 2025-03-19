@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className='flex items-center justify-between p-8'>
           <div className='flex items-center gap-2'>
             <img src='./icon.svg' className='w-6 h-6' />
-            <h2 className='text-xl font-[Inter] font-light text-stone-50 col-span-2 text-start block'>
+            <h2 className='text-xl font-[Inter] font-light text-stone-50 col-span-2 text-start block hover:cursor-default'>
               Kuick
             </h2>
           </div>
