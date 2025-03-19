@@ -1,8 +1,8 @@
 {
   "name": "kuick",
-  "description": "k-kube, k-hub 예약 도우미",
+  "description": "k-cube, k-hub 예약 도우미",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
