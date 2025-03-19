@@ -1,40 +1,47 @@
 import { Group, GroupContainer } from "@/components/GroupContainer";
 import { GroupForm } from "@/components/GroupForm";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import Layout from "./Layout";
+import { targetUrl } from "@/model/url";
 
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [inReservationUrl, setInReservationUrl] = useState(false); // TODO 전역 상태관리 마렵네
 
-  const formVariants = {
+  const formVariants: Variants = {
     initial: {
-      y: 150,
+      y: 400,
       opacity: 0,
+      scale: 0.6,
     },
     animate: {
       y: 0,
       opacity: 1,
+      scale: 1,
+      transition: {
+        ease: "easeOut",
+        duration: 0.2,
+      },
     },
     exit: {
-      y: 350,
+      y: 600,
       opacity: 0,
+      scale: 0.6,
+      transition: {
+        ease: "easeOut",
+        duration: 0.3,
+      },
     },
   };
 
-  const containerVariants = {
-    initial: {
-      scale: 0,
-      opacity: 0,
-    },
-    enter: {
-      opacity: 1,
-      scale: 1,
-    },
+  const containerVariants: Variants = {
     exit: {
       opacity: 0,
       scale: 0,
+      transition: {
+        ease: "easeOut",
+      },
     },
   };
 
@@ -48,12 +55,14 @@ const App = () => {
 
   const createGroup = (group: Group) => {
     setGroups([group, ...groups!]);
+    // TODO 새로운 그룹이 생성됐을 때 그룹 컨테이너 스크롤을 최상단으로 이동하기
   };
 
   const registerGroup = async (content: Group) => {
     browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0].id) browser.tabs.sendMessage(tabs[0].id, { content });
     });
+    // TODO 최근에 사용한 그룹을 최상단으로 이동시키기
   };
 
   // 그룹이 변경될 때마다 저장
@@ -101,7 +110,7 @@ const App = () => {
 
   return (
     <Layout>
-      <div className='h-24'>
+      <div className='h-24 flex justify-center items-center'>
         <AnimatePresence>
           {isCreating ? (
             <MotionGroupForm
@@ -115,20 +124,23 @@ const App = () => {
             />
           ) : (
             <MotionButton
-              className='absolute left-[50%] top-[0%] translate-x-[-50%]'
+              className='opacity-0'
               variant={"white"}
               onClick={() => setIsCreating(true)}
-              initial={{ y: 100 }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               key='button'
+              animate={{
+                opacity: 1,
+                transition: { ease: "easeOut", duration: 0.1 },
+              }}
             >
               그룹 추가하기
             </MotionButton>
           )}
         </AnimatePresence>
       </div>
-      <div className='flex flex-col gap-2 p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-200 scrollbar-w-2'>
+      <div className='flex flex-col gap-4 p-4 pr-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-100/50 scrollbar-w-2 snap-y'>
         <AnimatePresence>
           {groups?.map((group, index) => (
             <MotionGroupContainer
@@ -140,7 +152,11 @@ const App = () => {
               initial='initial'
               exit='exit'
               animate='enter'
-              transition={{ delay: index * 0.1 }}
+              whileHover={{
+                scale: 1.02,
+                transition: { ease: "easeOut", duration: 0.1 },
+              }}
+              activate={inReservationUrl}
             />
           ))}
         </AnimatePresence>
