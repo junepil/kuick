@@ -7,10 +7,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-emerald-700",
+        default: "bg-stone-100 text-stone-500 font-semibold",
         destructive: "bg-orange-800",
-        create: "bg-indigo-700",
+        create: "bg-cyan-700",
         white: "bg-stone-50 text-cyan-700 font-semibold",
+        inactivate:
+          "bg-stone-100 text-stone-300 font-semibold hover:cursor-not-allowed",
       },
       size: {
         md: "h-10 px-4 py-5",
