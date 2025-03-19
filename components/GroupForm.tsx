@@ -33,21 +33,25 @@ const GroupForm = ({ onCreate, onClose, ...props }: GroupFormProps) => {
 
   return (
     <div
-      className='absolute w-full h-full translate-y-[20%] bottom-0 bg-stone-50 z-10 rounded-t-4xl py-8 px-8 flex flex-col gap-2 items-end'
+      className='absolute w-full h-full translate-y-[20%] bottom-0 bg-stone-50 z-10 rounded-t-4xl py-8 px-8 flex flex-col gap-4 items-end'
       ref={props.ref}
     >
-      <IoClose className='text-stone-500 text-xl' onClick={onClose} />
+      <IoClose
+        className='text-stone-500 bg-stone-100 p-1 rounded-full text-3xl hover:cursor-pointer'
+        onClick={onClose}
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-4 py-2 w-full h-fit overflow-y-auto relative items-end'
+        className='flex flex-col gap-4 py-2 w-full h-fit overflow-y-visible items-center relative'
       >
         <Controller
           name='name'
           control={control}
           defaultValue=''
-          render={({ field }) => (
-            <Input placeholder='그룹명' {...field} required />
+          render={({ field, fieldState }) => (
+            <Input placeholder='그룹 이름' {...field} {...fieldState} />
           )}
+          rules={{ required: true }}
         />
         {members.map((_, index) => (
           <Controller
@@ -55,17 +59,27 @@ const GroupForm = ({ onCreate, onClose, ...props }: GroupFormProps) => {
             name={`members.${index}`}
             control={control}
             defaultValue=''
-            render={({ field }) => <Input placeholder='학번' {...field} />}
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  placeholder={`학번 ${index + 1}`}
+                  {...field}
+                  {...fieldState}
+                  message='9자리 숫자로 입력해 주세요'
+                />
+              </>
+            )}
+            rules={{ pattern: /^(\d{9})?$/ }}
           />
         ))}
-        <Button
-          onClick={handleSubmit(onSubmit)}
-          type={"submit"}
-          variant={"create"}
-        >
-          등록하기
-        </Button>
       </form>
+      <Button
+        onClick={handleSubmit(onSubmit)}
+        type={"submit"}
+        variant={"create"}
+      >
+        등록하기
+      </Button>
     </div>
   );
 };
