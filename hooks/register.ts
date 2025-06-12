@@ -8,6 +8,12 @@ const useAddUserButton = () => {
   searchUserButton.click();
 };
 
+const selectUsingPurpose = () => {
+  const purposeList = document.querySelector("#srupSeq") as HTMLSelectElement;
+
+  purposeList.value = '1';
+}
+
 const addUsers = (users: string[]) => {
   const userAddButton = document.getElementById("addBtn") as HTMLButtonElement;
   const userIdInput = userAddButton.previousElementSibling as HTMLInputElement;
@@ -40,6 +46,8 @@ const saveForm = () => {
 
 const useRegister = ({ members }: Group) => {
   const users = members;
+
+  selectUsingPurpose();
 
   const popupObserver = new MutationObserver((_, observer) => {
     const elem = document.getElementById("addBtn");
