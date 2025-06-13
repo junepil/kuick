@@ -2,13 +2,15 @@ import { Group, GroupContainer } from "@/components/GroupContainer";
 import { GroupForm } from "@/components/GroupForm";
 import { containerVariants, formVariants } from "@/model/motion";
 import { targetUrl } from "@/model/url";
+import { AnimatePresence, motion } from "motion/react";
+import Layout from "./Layout";
 
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [inReservationUrl, setInReservationUrl] = useState(false); // TODO 전역 상태관리 마렵네
 
-  const scrollContainer = useRef<HTMLDListElement>(null);
+  const scrollContainer = useRef<HTMLUListElement>(null);
 
   const MotionButton = motion.create(Button);
   const MotionGroupForm = motion.create(GroupForm);
@@ -20,7 +22,8 @@ const App = () => {
 
   const createGroup = (group: Group) => {
     setGroups([group, ...groups!]);
-    // TODO 새로운 그룹이 생성됐을 때 그룹 컨테이너 스크롤을 최상단으로 이동하기
+
+    scrollContainer.current?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const registerGroup = async (content: Group) => {
@@ -105,7 +108,10 @@ const App = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className='flex flex-col gap-4 p-4 pr-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-100/50 scrollbar-w-2 snap-y'>
+      <ul
+        className='flex flex-col gap-4 p-4 pr-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-y-scroll scrollbar scrollbar-thumb-stone-100/50 scrollbar-w-2 snap-y'
+        ref={scrollContainer}
+      >
         <AnimatePresence>
           {groups?.map((group, index) => (
             <MotionGroupContainer
@@ -125,7 +131,7 @@ const App = () => {
             />
           ))}
         </AnimatePresence>
-      </div>
+      </ul>
     </Layout>
   );
 };

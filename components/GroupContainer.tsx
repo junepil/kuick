@@ -27,7 +27,7 @@ const GroupContainer = ({
 }: GroupContainerProps) => {
   return (
     <Box onClose={onClose} title={group.name} ref={ref}>
-      <div className='w-full flex flex-col gap-2 pt-2 items-end relative'>
+      <dd className='w-full flex flex-col gap-2 pt-2 items-end relative'>
         <ul className='flex flex-col h-full w-full p-2 gap-2 items-start'>
           {group.members.map((member, index) => (
             <li
@@ -41,7 +41,7 @@ const GroupContainer = ({
         <Button onClick={onClick} variant={activate ? "default" : "inactivate"}>
           사용하기
         </Button>
-      </div>
+      </dd>
     </Box>
   );
 };

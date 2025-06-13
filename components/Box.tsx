@@ -11,14 +11,14 @@ interface BoxProps {
 
 const Box = ({ onClose, children, icon, title, ref }: BoxProps) => {
   return (
-    <div
+    <dl
       className='p-6 pt-12 bg-stone-50 rounded-2xl relative snap-center'
       ref={ref}
     >
       {title && (
-        <div className='p-1.5 font-[Inter] text-sm font-semibold absolute start-4 top-4 text-stone-500 max-w-[75%] overflow-hidden hover:cursor-default'>
+        <dt className='p-1.5 font-[Inter] text-sm font-semibold absolute start-4 top-4 text-stone-500 max-w-[75%] overflow-hidden hover:cursor-default'>
           {title}
-        </div>
+        </dt>
       )}
       {icon ? (
         icon
@@ -29,7 +29,7 @@ const Box = ({ onClose, children, icon, title, ref }: BoxProps) => {
         />
       )}
       {children}
-    </div>
+    </dl>
   );
 };
 
