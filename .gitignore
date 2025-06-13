@@ -22,5 +22,8 @@ web-ext.config.ts
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
+*.sln 
 *.sw?
+
+# Environment variables
+*.env*
