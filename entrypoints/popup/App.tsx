@@ -1,7 +1,6 @@
 import { Group, GroupContainer } from "@/components/GroupContainer";
 import { GroupForm } from "@/components/GroupForm";
-import { AnimatePresence, motion, Variants } from "motion/react";
-import Layout from "./Layout";
+import { containerVariants, formVariants } from "@/model/motion";
 import { targetUrl } from "@/model/url";
 
 const App = () => {
@@ -9,41 +8,7 @@ const App = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [inReservationUrl, setInReservationUrl] = useState(false); // TODO 전역 상태관리 마렵네
 
-  const formVariants: Variants = {
-    initial: {
-      y: 400,
-      opacity: 0,
-      scale: 0.6,
-    },
-    animate: {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        ease: "easeOut",
-        duration: 0.2,
-      },
-    },
-    exit: {
-      y: 600,
-      opacity: 0,
-      scale: 0.6,
-      transition: {
-        ease: "easeOut",
-        duration: 0.3,
-      },
-    },
-  };
-
-  const containerVariants: Variants = {
-    exit: {
-      opacity: 0,
-      scale: 0,
-      transition: {
-        ease: "easeOut",
-      },
-    },
-  };
+  const scrollContainer = useRef<HTMLDListElement>(null);
 
   const MotionButton = motion.create(Button);
   const MotionGroupForm = motion.create(GroupForm);
