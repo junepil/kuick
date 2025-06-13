@@ -1,6 +1,7 @@
+import { Link } from "@/components/Link";
 import { ReactNode } from "react";
-import { MdAlternateEmail } from "react-icons/md";
-import { FaGithub } from "react-icons/fa";
+import { FiExternalLink } from "react-icons/fi";
+import { IoHelp } from "react-icons/io5";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -14,12 +15,12 @@ export default function Layout({ children }: { children: ReactNode }) {
             </h2>
           </div>
           <div className='flex items-center gap-4'>
-            <a href='mailto:hanu9257@gmail.com'>
-              <MdAlternateEmail className='w-5 h-5 text-stone-50' />
-            </a>
-            <a href='https://github.com/junepil/kuick'>
-              <FaGithub className='w-5 h-5 text-stone-50' />
-            </a>
+            <Link url='https://github.com/junepil/kuick'>
+              <IoHelp className='w-6 h-6 text-stone-50' />
+            </Link>
+            <Link url='https://wein.konkuk.ac.kr/ptfol/cmnt/cube/findCubeResveStep1.do'>
+              <FiExternalLink className='w-5 h-5 text-stone-50' />
+            </Link>
           </div>
         </div>
         {children}
