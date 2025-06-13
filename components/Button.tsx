@@ -7,7 +7,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-stone-100 text-stone-500 font-semibold",
+        default: "bg-cyan-700 text-stone-100",
         destructive: "bg-orange-800",
         create: "bg-cyan-700",
         white: "bg-stone-50 text-cyan-700 font-semibold",
