@@ -8,7 +8,7 @@ import Layout from "./Layout";
 const App = () => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [inReservationUrl, setInReservationUrl] = useState(false); // TODO 전역 상태관리 마렵네
+  const [inReservationUrl, setInReservationUrl] = useState(false);
 
   const scrollContainer = useRef<HTMLUListElement>(null);
 
@@ -20,17 +20,28 @@ const App = () => {
     setGroups(groups!.filter((_, index) => index !== target));
   };
 
-  const createGroup = (group: Group) => {
-    setGroups([group, ...groups!]);
-
+  const scrollToTop = () => {
     scrollContainer.current?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const registerGroup = async (content: Group) => {
+  const createGroup = (group: Group) => {
+    setGroups([group, ...groups!]);
+    
+    scrollToTop();
+  };
+
+  const moveGroupToTop = (target: number) => {
+    setGroups([groups![target], ...groups!.filter((_, index) => index !== target)]);
+  };
+
+  const registerGroup = async (content: Group, target: number) => {
     browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0].id) browser.tabs.sendMessage(tabs[0].id, { content });
     });
-    // TODO 최근에 사용한 그룹을 최상단으로 이동시키기
+
+    moveGroupToTop(target);
+
+    scrollToTop();
   };
 
   // 그룹이 변경될 때마다 저장
@@ -42,7 +53,6 @@ const App = () => {
     if (groups) persistGroups(groups);
   }, [groups]);
 
-  // 익스텐션 로딩 시 초기 그룹 정보 반환
   useEffect(() => {
     const fetchGroups = async () => {
       const data = await browser.storage.sync.get();
@@ -118,7 +128,7 @@ const App = () => {
               key={index}
               group={group}
               onClose={() => deleteGroup(index)}
-              onClick={() => registerGroup(group)}
+              onClick={() => registerGroup(group, index)}
               variants={containerVariants}
               initial='initial'
               exit='exit'

@@ -38,7 +38,10 @@ const GroupContainer = ({
             </li>
           ))}
         </ul>
-        <Button onClick={onClick} variant={activate ? "default" : "inactivate"}>
+        <Button
+          onClick={activate ? onClick : undefined}
+          variant={activate ? "default" : "inactivate"}
+        >
           사용하기
         </Button>
       </dd>

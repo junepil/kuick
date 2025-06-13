@@ -2,7 +2,7 @@
   "name": "kuick",
   "description": "k-cube, k-hub 예약 도우미",
   "private": true,
-  "version": "1.0.0",
+  "version": "26.6.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
